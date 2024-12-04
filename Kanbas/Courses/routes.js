@@ -16,8 +16,8 @@ export default function CourseRoutes(app) {
   });
 
   //   所有的课程
-  app.get("/api/courses", (req, res) => {
-    const courses = dao.findAllCourses();
+  app.get("/api/courses", async(req, res) => {
+    const courses = await dao.findAllCourses();
     res.send(courses);
   });
 

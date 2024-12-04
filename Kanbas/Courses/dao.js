@@ -1,8 +1,9 @@
-import Database from "../Database/index.js";
-
+// import Database from "../Database/index.js";
+import model from "./model.js";
 // 找到所有的课
 export function findAllCourses() {
-    return Database.courses;
+    // return Database.courses;
+    return model.find();
 }
 // 找到某位user所注册的课程
 export function findCoursesForEnrolledUser(userId) {
