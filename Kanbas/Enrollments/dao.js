@@ -37,7 +37,7 @@ export function createEnrollment(enrollment) {
   // const newEnroll = { ...enrollment, _id: Date.now().toString() ,user:enrollment.user, course:enrollment.user};
   // Database.enrollments = [...Database.enrollments, enrollment];
 
-  delete module._id
+  delete enrollment._id
   return model.create(enrollment);
 
 }
