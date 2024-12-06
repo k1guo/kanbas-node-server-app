@@ -94,19 +94,19 @@ const signout = async(req, res) => {
     res.json(currentUser);
   };
 
-  const findCoursesForEnrolledUser = async(req, res) => {
-    let { userId } = req.params;
-    if (userId === "current") {
-      const currentUser = req.session["currentUser"];
-      if (!currentUser) {
-        res.sendStatus(401);
-        return;
-      }
-      userId = currentUser._id;
-    }
-    const courses = courseDao.findCoursesForEnrolledUser(userId);
-    res.json(courses);
-  };
+  // const findCoursesForEnrolledUser = async(req, res) => {
+  //   let { userId } = req.params;
+  //   if (userId === "current") {
+  //     const currentUser = req.session["currentUser"];
+  //     if (!currentUser) {
+  //       res.sendStatus(401);
+  //       return;
+  //     }
+  //     userId = currentUser._id;
+  //   }
+  //   const courses = courseDao.findCoursesForEnrolledUser(userId);
+  //   res.json(courses);
+  // };
 
   const findCoursesForUser = async (req, res) => {
     const currentUser = req.session["currentUser"];
@@ -126,7 +126,7 @@ const signout = async(req, res) => {
     const courses = await enrollmentsDao.findCoursesForUser(uid);
     res.json(courses);
   };
-  
+
 
   const enrollUserInCourse = async (req, res) => {
     let { uid, cid } = req.params;
@@ -150,7 +150,7 @@ const signout = async(req, res) => {
   app.delete("/api/users/:uid/courses/:cid", unenrollUserFromCourse);
 
   
-  app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
+  // app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
   app.get("/api/users/:uid/courses", findCoursesForUser);
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
@@ -161,5 +161,10 @@ const signout = async(req, res) => {
   app.post("/api/users/signin", signin);
   app.post("/api/users/signout", signout);
   app.post("/api/users/profile", profile);
-
+  
+  app.get("/api/courses/:cid/users", async (req, res) => {
+    const { cid } = req.params;
+    const users = await enrollmentsDao.findUsersForCourse(cid);
+    res.json(users);
+  });
 }
