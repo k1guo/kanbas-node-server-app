@@ -1,35 +1,36 @@
 // import Database from "../Database/index.js";
 import model from "./model.js";
+import enrollmentModel from "../Enrollments/model.js";
+
 // 找到所有的课
 export function findAllCourses() {
     // return Database.courses;
     return model.find();
 }
+
+  const findUsersForCourse = async (req, res) => {
+    const { cid } = req.params;
+    const users = await enrollmentsDao.findUsersForCourse(cid);
+    res.json(users);
+  };
+//   app.get("/api/courses/:cid/users", findUsersForCourse);
 // 找到某位user所注册的课程
-export function findCoursesForEnrolledUser(userId) {
-    const { courses, enrollments } = Database;
-    const enrolledCourses = courses.filter((course) =>
-        enrollments.some((enrollment) => enrollment.user === userId && enrollment.course === course._id));
-    return enrolledCourses;
+export async function findCoursesForEnrolledUser(userId) {
+    const enrollments = await enrollmentModel.find({ user: userId }).populate("course");
+    // 提取课程信息
+    return enrollments.date;
 }
 // 创建课程
 export function createCourse(course) {
-    const newCourse = { ...course, _id: Date.now().toString() };
-    Database.courses = [...Database.courses, newCourse];
-    return newCourse;
+    delete course._id;
+    return model.create(course);
 }
 
 export function deleteCourse(courseId) {
-    const { courses, enrollments } = Database;
-    Database.courses = courses.filter((course) => course._id !== courseId);
-    Database.enrollments = enrollments.filter(
-        (enrollment) => enrollment.course !== courseId
-    );
+
+    return model.deleteOne({ _id: courseId });
 }
 
 export function updateCourse(courseId, courseUpdates) {
-    const { courses } = Database;
-    const course = courses.find((course) => course._id === courseId);
-    Object.assign(course, courseUpdates);
-    return course;
+
 }
