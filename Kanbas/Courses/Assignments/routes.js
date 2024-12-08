@@ -1,4 +1,3 @@
-
 // routes.js 是后端 API 的入口，用于分发请求和调用相应的控制器逻辑。
 // import Database from "../Database/index.js";
 import * as dao from "./dao.js";
@@ -9,7 +8,6 @@ export default function AssignmentRoutes(app) {
   app.get("/api/courses/:courseId/assignments", async(req, res) => {
     const { courseId } = req.params;
     const assignments = await assignmentsDao.findAssignmentsForCourse(courseId);
-    console.log("Fetched assignments:", assignments); 
     res.json(assignments);
   });
 
@@ -42,7 +40,5 @@ export default function AssignmentRoutes(app) {
     const assignments = await dao.findAllAssignments();
     res.send(assignments);
   });
- 
-
  
 }
