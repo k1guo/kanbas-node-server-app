@@ -43,11 +43,11 @@ app.use(
   })
 );
 
-const sessionOptions = {
-  secret: process.env.SESSION_SECRET || "kanbas",
-  resave: false,
-  saveUninitialized: false,
-};
+// const sessionOptions = {
+//   secret: process.env.SESSION_SECRET || "kanbas",
+//   resave: false,
+//   saveUninitialized: false,
+// };
 
 
 if (process.env.NODE_ENV !== "development") {
@@ -58,8 +58,20 @@ if (process.env.NODE_ENV !== "development") {
     domain: process.env.NODE_SERVER_DOMAIN,
   };
 }
+// app.use(session(sessionOptions));
+
+const sessionOptions = {
+  secret: process.env.SESSION_SECRET || "kanbas",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === "production", // 仅在生产环境下启用
+    sameSite: "none", // 跨域时需要设置为 "none"
+  },
+};
 app.use(session(sessionOptions));
 
+app.set("trust proxy", 1);
 
 app.use(express.json());
 UserRoutes(app);
