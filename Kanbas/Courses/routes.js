@@ -3,17 +3,26 @@ import * as dao from "./dao.js";
 import * as modulesDao from "../Modules/dao.js";
 // ​​import * as enrollmentsDao from "../Enrollments/dao.js";
 // const enrollmentsDao = require("../Enrollments/dao");
+import * as assignmentsDao from "./Assignments/dao.js";
 
 export default function CourseRoutes(app){
 
-  app.post("/api/courses", async (req, res) => {
-    const course = await dao.createCourse(req.body);
-    // const currentUser = req.session["currentUser"];
-    // if (currentUser) {
-    //   await enrollmentsDao.enrollUserInCourse(currentUser._id, course._id);
-    // }
-    res.json(course);
+  app.post("/api/courses/", async (req, res) => {
+    const assignment = await assignmentsDao.createAssignments(req.body);
+    res.json(assignment);
   });
+
+
+  app.post("/api/courses/:courseId/assignments", async (req, res) => {
+    const { courseId } = req.params;
+    const assignment = {
+      ...req.body,
+      course: courseId,
+    };
+    const newAssignment = await assignmentsDao.createAssignment(assignment);
+    res.send(newAssignment);
+  });
+  
 
   // 得到特定的课的 modules
   app.post("/api/courses/:courseId/modules", async (req, res) => {
@@ -26,6 +35,11 @@ export default function CourseRoutes(app){
     res.send(newModule);
   });
 
+
+  app.post("/api/courses", async (req, res) => {
+    const course = await dao.createCourse(req.body);
+    res.json(course);
+  });
 
 
 

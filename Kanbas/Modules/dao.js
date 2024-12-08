@@ -3,7 +3,6 @@ import model from "./model.js";
 export function createModule(module) {
     delete module._id
     return model.create(module);
-
 }
 
 export function findModulesForCourse(courseId) {
