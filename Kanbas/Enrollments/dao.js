@@ -9,7 +9,15 @@ export async function findCoursesForUser(userId) {
 }
 
 
-
+// export const findUsersForCourse = async (courseId) => {
+//   try {
+//     // 查询所有与指定课程相关的用户
+//     return await enrollmentModel.find({ course: courseId }).populate("user").exec();
+//   } catch (error) {
+//     console.error("Error in findUsersForCourse:", error);
+//     throw error;
+//   }
+// };
 
 export async function findUsersForCourse(courseId) {
   const enrollments = await model.find({ course: courseId }).populate("user");
@@ -41,12 +49,7 @@ export function updateEnrollment(moduleId, moduleUpdates) {
 }
 
 
-// export async function findCoursesForEnrolledUser(userId) {
-//   const enrollments = await model.find({ user: userId }).populate("course");
-//   return enrollments.map((enrollment) => enrollment.course);
-// }
 
 export function findAllEnrollments() {
-
   return model.find();
 }

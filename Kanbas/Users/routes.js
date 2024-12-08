@@ -3,6 +3,16 @@ import * as courseDao from "../Courses/dao.js";
 import * as enrollmentsDao from "../Enrollments/dao.js";
 // let currentUser = null;
 export default function UserRoutes(app) {
+  // app.post("/api/courses", async (req, res) => {
+  //   const course = await courseDao.createCourse(req.body);
+  //   const currentUser = req.session["currentUser"]
+  //   console.log(currentUser, "here")
+  //   // if (currentUser) {
+  //   // 
+  //   //   await enrollmentsDao.enrollUserInCourse(currentUser._id, course._id);
+  //   // }
+  //   res.json(course);
+  // });
   const createUser = async (req, res) => {
     const user = await dao.createUser(req.body);
     res.json(user);
@@ -168,3 +178,5 @@ const signout = async(req, res) => {
     res.json(users);
   });
 }
+
+
